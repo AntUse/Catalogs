@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Catalogs.Repositories
 {
-   public class InMenItemsRepository
+    public class InMenItemsRepository : IInMenItemsRepository  // referencing the IInMenItemsRepository interface.
     {
         // Generate a list of items 
         // using our model Entities to get declared variables.
@@ -18,8 +18,8 @@ namespace Catalogs.Repositories
             new Item { Id = Guid.NewGuid(), Name = "Sangotedo", Price = 19, CreatedDate = DateTimeOffset.UtcNow }
 
         };
-// create a basic interface for return the list items.  interface dont have code inside them just pattern of returns or functions.
-        public IEnumerable <Item > GetItems()
+        // create a basic interface for return the list items.  interface dont have code inside them just pattern of returns or functions.
+        public IEnumerable<Item> GetItems()
         {
             return Items;
         }
@@ -27,6 +27,6 @@ namespace Catalogs.Repositories
         {
             return Items.Where(Item => Item.Id == Id).SingleOrDefault();
         }
-       
+
     }
 }

@@ -13,17 +13,23 @@ namespace catalogs.controllers
     public class ItemsController : ControllerBase
     {
         //private readonly InMenItemsRepository Repository; BEFORE WE CREATED THE DEPENDENCY USING THE INTERFACE.
-        private readonly IInMenItemsRepository Repository;
+       // private readonly IInMenItemsRepository Repository;
+        private readonly ISQLDBItemsRepository Repository;
 
         //BEFORE WE CREATED THE DEPENDENCY USING THE INTERFACE.
         //public ItemsController() // a contructor to initialize and get the list items from the InMenItemsRepository class in our Repositories. 
         // {
         //Repository = new InMenItemsRepository(); 
         // }
-        public ItemsController( IInMenItemsRepository Repository)   // a contructor to initialize and get the list items from the IinMenItemsRepository interface which the InMen... class is depending upon.
+       // public ItemsController( IInMenItemsRepository Repository)   // a contructor to initialize and get the list items from the IinMenItemsRepository interface which the InMen... class is depending upon.
+       // {
+       //     this.Repository = Repository;
+       // }
+        public ItemsController(ISQLDBItemsRepository Repository)   // a contructor to initialize and get the list items from the IinMenItemsRepository interface which the InMen... class is depending upon.
         {
             this.Repository = Repository;
         }
+
         // Get /items
         [HttpGet]
         //public IEnumerable<Item> GetItems()
@@ -33,6 +39,8 @@ namespace catalogs.controllers
 
         //}
         // USING THE EXTENSIONS CLASS TO RUN THE ItemDTOs class
+
+
         public IEnumerable<ItemDTOs> GetItems()
         {
             var Items = Repository.GetItems().Select(Item => Item.ASDTOs());

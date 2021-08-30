@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,7 +30,15 @@ namespace Catalogs
         {
             //Addiny Anthonys service for my dependencies 
             //Adding a singleton so as to have one instance for the entire life time which can always be used, 
-            services.AddSingleton<IInMenItemsRepository, InMenItemsRepository>();
+
+
+
+            // add service to use our connection to database in connection strign (appsettingd)
+            services.AddDbContext<AppDbContext>(options =>
+         options.UseSqlServer(Configuration.GetConnectionString("DBConnection"))
+                );
+            // services.AddSingleton<IInMenItemsRepository, InMenItemsRepository>();
+            services.AddScoped<ISQLDBItemsRepository, SQLDBItemsRepository>();
 
 
             services.AddControllers();

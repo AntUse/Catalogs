@@ -8,11 +8,11 @@ namespace Catalogs.Repositories
 {
    public  interface ISQLDBItemsRepository
     {
-        Item GetItem(Guid Id);
-        IEnumerable<Item> GetItems();
+        Task<Item> GetItemAsync(Guid Id);
+        Task<IEnumerable<Item>> GetItemsAsync();
 
-        void CreatedItem(Item item);
-        void UpdateItem(Item item);
-        void DeleteItem(Guid id);
+        Task CreatedItemAsync(Item item);
+        Task UpdateItemAsync(Item item);
+        Task DeleteItemAsync(Guid id);
     }
 }

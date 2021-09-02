@@ -1,4 +1,5 @@
 ﻿using catalogs.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,30 +16,50 @@ namespace Catalogs.Repositories
             this.appdbcontext = appDbcontext;
         }
 
-        public void  CreatedItem(Item item)
+        public async  Task CreatedItemAsync(Item item)
         {
-            throw new NotImplementedException();
+            var result =  appdbcontext.ItemsTable.AddAsync(item); // adds the created item to the ITemstable in SQLSERVER
+            await appdbcontext.SaveChangesAsync();
+            
+            
             
         }
 
-        public void DeleteItem(Guid id)
+
+        public async Task DeleteItemAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var result = await appdbcontext.ItemsTable.FirstOrDefaultAsync(existingItems => existingItems.Id == id);
+
+            if (result !=null )
+            {
+               appdbcontext.ItemsTable.Remove(result );
+               await  appdbcontext.SaveChangesAsync();
+            }
+            
         }
 
-        public Item GetItem(Guid Id)
+        public async Task<Item> GetItemAsync(Guid Id)
         {
-            throw new NotImplementedException();
+           return await appdbcontext .ItemsTable.AsNoTracking().FirstOrDefaultAsync(existingItem => existingItem.Id == Id);
+           // return await appdbcontext.ItemsTable.FirstOrDefaultAsync(existingItem => existingItem.Id == Id);
+
+
         }
 
-        public IEnumerable<Item> GetItems()
+        public async Task<IEnumerable<Item>> GetItemsAsync()
         {
-            return appdbcontext.ItemsTable.ToList();
+            return await appdbcontext.ItemsTable.ToListAsync();
+           // return await appdbcontext.ItemsTable.AsNoTracking().ToListAsync();
         }
 
-        public void UpdateItem(Item item)
+        public  async Task UpdateItemAsync(Item item)
         {
-            throw new NotImplementedException();
-        }
+            
+            
+            appdbcontext.ItemsTable.Update(item  );
+             await   appdbcontext.SaveChangesAsync();
+                
+
+            }
     }
 }

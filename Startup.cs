@@ -41,7 +41,10 @@ namespace Catalogs
             services.AddScoped<ISQLDBItemsRepository, SQLDBItemsRepository>();
 
 
-            services.AddControllers();
+            services.AddControllers( options =>
+            {
+                options.SuppressAsyncSuffixInActionNames = false;  // suppress the removal during runtime of the getitem method
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalogs", Version = "v1" });
